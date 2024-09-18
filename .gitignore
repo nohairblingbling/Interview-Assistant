@@ -90,3 +90,6 @@ typings/
 
 # Electron-Forge
 out/
+
+# Electron
+**/node_modules/electron/**
