@@ -16,16 +16,15 @@ Interview Assistant 是一款基于 Electron 的应用，可以捕获系统音�
 
 ## 演示
 
-<video width="640" height="360" controls>
-  <source src="https://github.com/nohairblingbling/Interview-Assistant/raw/main/src/assets/demo.mp4" type="video/mp4">
-  您的浏览器不支持视频标签。
-</video>
+![Interview Assistant 演示](https://github.com/nohairblingbling/Interview-Assistant/raw/main/src/assets/demo.mp4)
+
+点击上方图片查看演示视频
 
 ## 与其他工具的对比
 
 Interview Assistant 相比其他面试辅助工具有以下优势：
 
-1. **实时语音识别**: 利用 Deepgram API(新用户有200美元额度)，我们提供比传统语音识别更快、更准确的实时转录。
+1. **实时语音识别**: 利用 Deepgram API(新用户有200美���额度)，我们提供比传统语音识别更快、更准确的实时转录。
 2. **个性化知识库**: 用户可以上传自己的简历、个人信息等文档，GPT 模型会基于这些信息提供更加个性化的回答建议。
 3. **跨平台支持**: 作为 Electron 应用，支持 Windows、macOS。
 4. **隐私保护**: 所有数据都在本地处理，不会上传到云端，保护用户的隐私信息。
@@ -33,7 +32,7 @@ Interview Assistant 相比其他面试辅助工具有以下优势：
 
 下面是 Interview Assistant 与其他面试辅助工具的功能对比表：
 
-|                                                      | Windows | Mac  | 个性定制prompt/上传个人文件 |
+|                                                      | Windows | Mac  | 个性定制prompt/上传个���文件 |
 | ---------------------------------------------------- | ------- | ---- | ----------- |
 | [cheetah](https://github.com/leetcode-mafia/cheetah) |         | ✅    |             |
 | [ecoute](https://github.com/SevaSk/ecoute)           | ✅       |      |             |
@@ -60,7 +59,7 @@ Interview Assistant 相比其他面试辅助工具有以下优势：
 
 ## 开发
 
-本项目基于 Electron 和 React 开发。请按以下步骤操作：
+本项目基于 Electron 和 React 开发。请��以下步骤操作：
 
 1. 克隆仓库: `git clone https://github.com/nohairblingbling/Interview-Assistant`
 2. 安装依赖: `npm install`
@@ -88,10 +87,9 @@ Interview Assistant is an Electron-based application that captures system audio 
 
 ## Demo
 
-<video width="640" height="360" controls>
-  <source src="https://github.com/nohairblingbling/Interview-Assistant/raw/main/src/assets/demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+![Interview Assistant Demo](https://github.com/nohairblingbling/Interview-Assistant/raw/main/src/assets/demo.mp4)
+
+Click the image above to view the demo video
 
 ## Comparison with Other Tools
 
