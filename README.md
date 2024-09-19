@@ -16,12 +16,10 @@ Interview Assistant 是一款基于 Electron 的应用，可以捕获系统音�
 
 ## 演示
 
-<details>
-<summary>点击查看 Interview Assistant 演示视频</summary>
-
-[![Interview Assistant 演示](https://img.youtube.com/vi/4FtMrB0txE4/0.jpg)](https://youtu.be/4FtMrB0txE4)
-
-</details>
+<video width="640" height="360" controls>
+  <source src="https://github.com/nohairblingbling/Interview-Assistant/raw/main/src/assets/demo.mp4" type="video/mp4">
+  您的浏览器不支持视频标签。
+</video>
 
 ## 与其他工具的对比
 
@@ -90,12 +88,10 @@ Interview Assistant is an Electron-based application that captures system audio 
 
 ## Demo
 
-<details>
-<summary>Click to view Interview Assistant demo video</summary>
-
-[![Interview Assistant Demo](https://img.youtube.com/vi/4FtMrB0txE4/0.jpg)](https://youtu.be/4FtMrB0txE4)
-
-</details>
+<video width="640" height="360" controls>
+  <source src="https://github.com/nohairblingbling/Interview-Assistant/raw/main/src/assets/demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ## Comparison with Other Tools
 
