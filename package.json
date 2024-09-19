@@ -1,6 +1,6 @@
 {
-  "name": "my-interview-assistant",
-  "productName": "Interview Assistant",
+  "name": "interview-assistant",
+  "productName": "Interview-Assistant",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": ".webpack/main",
