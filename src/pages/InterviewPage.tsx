@@ -81,7 +81,6 @@ const InterviewPage: React.FC = () => {
     try {
       const config = await window.electronAPI.getConfig();
       const messages = [
-        { role: "system", content: "You are a helpful assistant." },
         ...knowledgeBase.map(item => ({ role: "user", content: item })),
         ...conversations,
         { role: "user", content: contentToProcess }
@@ -97,9 +96,9 @@ const InterviewPage: React.FC = () => {
       }
 
       const formattedResponse = response.content.trim();
-      setAiResult(prev => prev + (prev ? '\n\n' : '') + formattedResponse);
-      setDisplayedAiResult(prev => prev + (prev ? '\n\n' : '') + formattedResponse);
+      addConversation({ role: "user", content: contentToProcess });
       addConversation({ role: "assistant", content: formattedResponse });
+      setDisplayedAiResult(prev => prev + (prev ? '\n\n' : '') + formattedResponse);
       setLastProcessedIndex(currentText.length);
     } catch (error) {
       setError('Failed to get response from GPT. Please try again.');
@@ -257,6 +256,14 @@ const InterviewPage: React.FC = () => {
     }
   }, [displayedAiResult]);
 
+  const debounce = (func: Function, delay: number) => {
+    let timeoutId: NodeJS.Timeout;
+    return (...args: any[]) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => func(...args), delay);
+    };
+  };
+
   return (
     <div className="flex flex-col h-[calc(100vh-2.5rem)] p-2 space-y-2">
       <style>{markdownStyles}</style>
@@ -309,7 +316,7 @@ const InterviewPage: React.FC = () => {
           </div>
           <div className="flex justify-between mt-1">
             <button
-              onClick={() => handleAskGPT()}
+              onClick={debounce(() => handleAskGPT(), 300)}
               disabled={!currentText || isLoading}
               className="btn btn-primary"
             >
