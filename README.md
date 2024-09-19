@@ -4,7 +4,7 @@
 
 # Interview Assistant (中文)
 
-Interview Assistant 是一款基于 Electron 的应用，可以捕获系统音频(在线会议)，并实施提供面试中回答建议。
+Interview Assistant 是一款基于 Electron 的应用，可以捕获系统音频(在线会议)，并提供面试中回答建议。
 
 ## 为什么是Interview Assistant
 
