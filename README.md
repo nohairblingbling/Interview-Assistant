@@ -2,15 +2,15 @@
   <a href="#interview-assistant-中文">中文</a> | <a href="#interview-assistant-english">English</a>
 </div>
 
-# Interview Assistant (中文)
+# Interview Assistant
 
-Interview Assistant 是一款基于 Electron 的应用，可以捕获系统音频(在线会议)，并提供面试中回答建议。
+Interview Assistant 是一款基于 Electron 的应用，可以捕获系统音频，并提供面试中回答建议。
 
 ## 为什么是Interview Assistant
 
 1. **实时语音转文字**: 利用 Deepgram API 实现实时语音识别。
 2. **智能 GPT 回答**: 集成 OpenAI 的 GPT 模型，为面试问题提供即时、智能的回答建议。(支持带转发地址的第三方API)
-3. **那内容管理**: 用户可以上传自己的文件，包括文本、图片和 PDF 文件，和你自己定制的提示词，可以极大的定制你想要GPT回应的风格，这些资料将用于个性化 GPT 的回答。
+3. **内容管理**: 用户可以上传自己的文件，包括文本、图片和 PDF 文件，和你自己定制的提示词，可以极大的定制你想要GPT回应的风格，这些资料将用于个性化 GPT 的回答。
 4. **统一上下文**: 在实时回答页面中，对话基于知识页面的配置，都在同一个上下文中进行，确保回答的连贯性和相关性。
 5. **跨平台支持**: 作为 Electron 应用，可以在 Windows、macOS系统上运行。
 
@@ -73,7 +73,7 @@ Interview Assistant 相比其他面试辅助工具有以下优势：
 
 ---
 
-# Interview Assistant (English)
+# Interview Assistant
 
 Interview Assistant is an Electron-based application that captures system audio (online meetings) and provides real-time interview response suggestions.
 
