@@ -40,7 +40,7 @@ const KnowledgeBase: React.FC = () => {
           setDisplayedAiResult((prev) => prev + '\n\n');
         }, 500);
       }
-    }, 35);
+    }, 10);
   };
 
   const handleChatSubmit = async (e: React.FormEvent) => {
@@ -123,7 +123,7 @@ const KnowledgeBase: React.FC = () => {
         messages: messages
       });
 
-      if (response.error) {
+      if ('error' in response) {
         throw new Error(response.error);
       }
 

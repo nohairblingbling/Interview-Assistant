@@ -15,7 +15,7 @@ import { useInterview } from "../contexts/InterviewContext";
 import ReactMarkdown from 'react-markdown';
 
 const InterviewPage: React.FC = () => {
-  const { knowledgeBase, conversations, addConversation } = useKnowledgeBase();
+  const { knowledgeBase, conversations, addConversation, clearConversations } = useKnowledgeBase();
   const { error, setError, clearError } = useError();
   const {
     currentText,
@@ -83,7 +83,7 @@ const InterviewPage: React.FC = () => {
       const messages = [
         {
           role: "system",
-          content: "You are an interview preparation assistant now. Use the following previous conversation and file to assist in answering questions in the first person:",
+          content: "",
         },
         ...knowledgeBase.map((item: string) => ({
           role: "user",
@@ -109,35 +109,35 @@ const InterviewPage: React.FC = () => {
         throw new Error("Unexpected API response structure");
       }
 
-      const formattedResponse = `\n\nA: ${response.content.trim()}`;
-      setAiResult((prev: string) => prev + formattedResponse);
-      simulateTyping(formattedResponse);
-      addConversation({ role: "assistant", content: response.content });
+      const formattedResponse = response.content.trim();
+      setAiResult(prev => prev + (prev ? '\n\n' : '') + formattedResponse);
+      addConversation({ role: "assistant", content: formattedResponse });
       setLastProcessedIndex(currentText.length);
+      simulateTyping(formattedResponse, true);
     } catch (err) {
+      console.error("Detailed error in handleAskGPT:", err);
       setError("Failed to get GPT response. Please try again.");
     } finally {
       setIsLoading(false);
     }
   }, [currentText, lastProcessedIndex, knowledgeBase, conversations, addConversation, setError, setAiResult, setLastProcessedIndex]);
 
-  const simulateTyping = (text: string) => {
+  const simulateTyping = (text: string, isNewMessage: boolean = false) => {
     let i = 0;
+    if (isNewMessage) {
+      setDisplayedAiResult(prev => prev + (prev ? '\n\n' : ''));
+    }
     const interval = setInterval(() => {
-      if (i < text.length) {
-        setDisplayedAiResult((prev: string) => prev + (text[i] || ''));
+      if (i <= text.length) {
+        setDisplayedAiResult(prev => prev + (i === 0 ? text[i] || '' : text[i - 1] || ''));
         i++;
         if (aiResponseRef.current) {
           aiResponseRef.current.scrollTop = aiResponseRef.current.scrollHeight;
         }
       } else {
         clearInterval(interval);
-
-        setTimeout(() => {
-          setDisplayedAiResult((prev: string) => prev + '\n\n');
-        }, 500);
       }
-    }, 35);
+    }, 10);
   };
 
   const handleAskGPTStable = useCallback(async (newContent: string) => {
@@ -272,8 +272,11 @@ const InterviewPage: React.FC = () => {
   };
 
   useEffect(() => {
+    loadConfig();
     return () => {
-      setLastProcessedIndex(0);
+      if (isRecording) {
+        stopRecording();
+      }
     };
   }, []);
 
@@ -321,7 +324,11 @@ const InterviewPage: React.FC = () => {
             className="flex-1 overflow-auto bg-base-100 p-2 rounded mb-1 min-h-[80px]"
           >
             <h2 className="text-lg font-bold mb-1">AI Response:</h2>
-            <ReactMarkdown>{displayedAiResult || ''}</ReactMarkdown>
+            <ReactMarkdown className="whitespace-pre-wrap markdown-body" components={{
+              p: ({node, ...props}) => <p style={{whiteSpace: 'pre-wrap'}} {...props} />
+            }}>
+              {displayedAiResult}
+            </ReactMarkdown>
           </div>
           <div className="flex justify-between mt-1">
             <button
@@ -334,6 +341,7 @@ const InterviewPage: React.FC = () => {
             <button onClick={() => {
               setAiResult("");
               setDisplayedAiResult("");
+              clearConversations();
             }} className="btn btn-ghost">
               Clear AI Result
             </button>

@@ -15,7 +15,11 @@ export interface ElectronAPI {
     on(channel: string, listener: (event: any, ...args: any[]) => void): void;
     removeListener(channel: string, listener: (...args: any[]) => void): void;
   };
-  callOpenAI: (params: { config: any, messages: any[] }) => Promise<{ content?: string, error?: string }>;
+  callOpenAI: (params: {
+    config: any;
+    messages: any[];
+    signal?: AbortSignal;
+  }) => Promise<{ content: string } | { error: string }>;
   transcribeAudio: (audioBuffer: ArrayBuffer, config: any) => Promise<TranscriptionResult>;
 }
 

@@ -348,16 +348,23 @@ ipcMain.handle("test-api-config", async (event, config) => {
   }
 });
 
-ipcMain.handle("callOpenAI", async (event, { config, messages }) => {
+ipcMain.handle("callOpenAI", async (event, { config, messages, signal }) => {
   try {
     const openai = new OpenAI({
       apiKey: config.openai_key,
       baseURL: normalizeApiBaseUrl(config.api_base),
     });
+
+    const abortController = new AbortController();
+    if (signal) {
+      signal.addEventListener('abort', () => abortController.abort());
+    }
+
     const response = await openai.chat.completions.create({
       model: config.gpt_model || "gpt-3.5-turbo",
       messages: messages,
-    });
+    }, { signal: abortController.signal });
+
     if (
       !response.choices ||
       !response.choices[0] ||
@@ -367,6 +374,9 @@ ipcMain.handle("callOpenAI", async (event, { config, messages }) => {
     }
     return { content: response.choices[0].message.content };
   } catch (error) {
+    if (error.name === "AbortError") {
+      return { error: "AbortError" };
+    }
     return { error: error.message || "Unknown error occurred" };
   }
 });
@@ -413,7 +423,7 @@ ipcMain.handle("start-deepgram", async (event, config) => {
       language: config.primaryLanguage || "en",
       encoding: "linear16",
       sample_rate: 16000,
-      endpointing: 1000,
+      endpointing: 1500,
     });
 
     deepgramConnection.addListener(LiveTranscriptionEvents.Open, () => {

@@ -50,7 +50,7 @@ Interview Assistant 相比其他面试辅助工具有以下优势：
 
 本项目基于 Electron 和 React 开发。请按以下步骤操作：
 
-1. 克隆仓库: `git clone [仓库地址]`
+1. 克隆仓库: `git clone https://github.com/nohairblingbling/Interview-Assistant`
 2. 安装依赖: `npm install`
 3. 安装 Electron: `npm install electron`
 4. 启动开发服务器: `npm start`
