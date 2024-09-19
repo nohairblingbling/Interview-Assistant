@@ -2,7 +2,7 @@
   <a href="#interview-assistant-中文">中文</a> | <a href="#interview-assistant-english">English</a>
 </div>
 
-# Interview Assistant
+# interview-assistant-中文
 
 Interview Assistant 是一款基于 Electron 的应用，可以捕获系统音频，并提供面试中回答建议。
 
@@ -73,7 +73,7 @@ Interview Assistant 相比其他面试辅助工具有以下优势：
 
 ---
 
-# Interview Assistant
+# interview-assistant-english
 
 Interview Assistant is an Electron-based application that captures system audio (online meetings) and provides real-time interview response suggestions.
 
