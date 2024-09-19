@@ -84,7 +84,7 @@ const KnowledgeBase: React.FC = () => {
 
       const config = await window.electronAPI.getConfig();
       const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
-        { role: "system", content: "You are a highly helpful personal assistant. You can remember our conversations and carefully analyze the images and files I upload to help me accurately prepare for my upcoming interviews." },
+        { role: "system", content: "" },
         ...knowledgeBase.map(item => {
           if (item.startsWith('data:image')) {
             return {

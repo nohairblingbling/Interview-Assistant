@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 
 interface Conversation {
   role: string;
@@ -22,6 +22,25 @@ export const KnowledgeBaseProvider: React.FC<{ children: ReactNode }> = ({ child
   const [knowledgeBase, setKnowledgeBase] = useState<string[]>([]);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [displayedAiResult, setDisplayedAiResult] = useState("");
+
+  useEffect(() => {
+    const savedKnowledgeBase = localStorage.getItem('knowledgeBase');
+    const savedConversations = localStorage.getItem('conversations');
+    if (savedKnowledgeBase) {
+      setKnowledgeBase(JSON.parse(savedKnowledgeBase));
+    }
+    if (savedConversations) {
+      setConversations(JSON.parse(savedConversations));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('knowledgeBase', JSON.stringify(knowledgeBase));
+  }, [knowledgeBase]);
+
+  useEffect(() => {
+    localStorage.setItem('conversations', JSON.stringify(conversations));
+  }, [conversations]);
 
   const addToKnowledgeBase = (content: string) => {
     setKnowledgeBase(prev => [...prev, content]);

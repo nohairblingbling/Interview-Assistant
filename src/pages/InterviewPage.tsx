@@ -73,71 +73,42 @@ const InterviewPage: React.FC = () => {
     loadConfig();
   }, []);
 
-  const handleAskGPT = useCallback(async (newContent: string = '') => {
-    try {
-      setIsLoading(true);
-      const contentToProcess = newContent || currentText.slice(lastProcessedIndex);
-      addConversation({ role: "user", content: contentToProcess });
+  const handleAskGPT = async (newContent?: string) => {
+    const contentToProcess = newContent || currentText.slice(lastProcessedIndex).trim();
+    if (!contentToProcess) return;
 
+    setIsLoading(true);
+    try {
       const config = await window.electronAPI.getConfig();
       const messages = [
-        {
-          role: "system",
-          content: "",
-        },
-        ...knowledgeBase.map((item: string) => ({
-          role: "user",
-          content: item,
-        })),
-        ...conversations.map((conv: any) => ({
-          role: conv.role,
-          content: conv.content,
-        })),
-        { role: "user", content: contentToProcess },
+        { role: "system", content: "You are a helpful assistant." },
+        ...knowledgeBase.map(item => ({ role: "user", content: item })),
+        ...conversations,
+        { role: "user", content: contentToProcess }
       ];
 
       const response = await window.electronAPI.callOpenAI({
         config: config,
-        messages: messages,
+        messages: messages
       });
 
-      if ("error" in response) {
+      if ('error' in response) {
         throw new Error(response.error);
-      }
-
-      if (typeof response.content !== "string") {
-        throw new Error("Unexpected API response structure");
       }
 
       const formattedResponse = response.content.trim();
       setAiResult(prev => prev + (prev ? '\n\n' : '') + formattedResponse);
+      setDisplayedAiResult(prev => prev + (prev ? '\n\n' : '') + formattedResponse);
       addConversation({ role: "assistant", content: formattedResponse });
       setLastProcessedIndex(currentText.length);
-      simulateTyping(formattedResponse, true);
-    } catch (err) {
-      console.error("Detailed error in handleAskGPT:", err);
-      setError("Failed to get GPT response. Please try again.");
+    } catch (error) {
+      setError('Failed to get response from GPT. Please try again.');
     } finally {
       setIsLoading(false);
-    }
-  }, [currentText, lastProcessedIndex, knowledgeBase, conversations, addConversation, setError, setAiResult, setLastProcessedIndex]);
-
-  const simulateTyping = (text: string, isNewMessage: boolean = false) => {
-    let i = 0;
-    if (isNewMessage) {
-      setDisplayedAiResult(prev => prev + (prev ? '\n\n' : ''));
-    }
-    const interval = setInterval(() => {
-      if (i <= text.length) {
-        setDisplayedAiResult(prev => prev + (i === 0 ? text[i] || '' : text[i - 1] || ''));
-        i++;
-        if (aiResponseRef.current) {
-          aiResponseRef.current.scrollTop = aiResponseRef.current.scrollHeight;
-        }
-      } else {
-        clearInterval(interval);
+      if (aiResponseRef.current) {
+        aiResponseRef.current.scrollTop = aiResponseRef.current.scrollHeight;
       }
-    }, 10);
+    }
   };
 
   const handleAskGPTStable = useCallback(async (newContent: string) => {
@@ -280,6 +251,12 @@ const InterviewPage: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (aiResponseRef.current) {
+      aiResponseRef.current.scrollTop = aiResponseRef.current.scrollHeight;
+    }
+  }, [displayedAiResult]);
+
   return (
     <div className="flex flex-col h-[calc(100vh-2.5rem)] p-2 space-y-2">
       <style>{markdownStyles}</style>
@@ -339,9 +316,7 @@ const InterviewPage: React.FC = () => {
               {isLoading ? "Loading..." : "Ask GPT"}
             </button>
             <button onClick={() => {
-              setAiResult("");
               setDisplayedAiResult("");
-              clearConversations();
             }} className="btn btn-ghost">
               Clear AI Result
             </button>
